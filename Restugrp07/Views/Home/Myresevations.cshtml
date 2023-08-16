@@ -1,0 +1,93 @@
+﻿@model IEnumerable<Restugrp07.Models.Resevation>
+
+@{
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>My resevations</title>
+</head>
+<body>
+    <p>
+    </p>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Occationdate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Numberofguests)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Resevationtype)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+         
+            <th>
+                @Html.DisplayNameFor(model => model.Tablelayout)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Themecolor)
+            </th>
+          
+            <th>
+                @Html.DisplayNameFor(model => model.Total)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Servicefee)
+            </th>
+            <th></th>
+        </tr>
+    
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Date)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Occationdate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Numberofguests)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Resevationtype)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+          
+            <td>
+                @Html.DisplayFor(modelItem => item.Tablelayout)
+            </td>
+            <td>
+                <div style="height:30px;width:100px;background-color:@item.Themecolor;border-radius:5px">
+
+                </div>
+            </td>
+          
+            <td>
+               R @Html.DisplayFor(modelItem => item.Total)
+            </td>
+            <td>
+                R @Html.DisplayFor(modelItem => item.Servicefee)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+                @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+            </td>
+        </tr>
+    }
+    
+    </table>
+</body>
+</html>

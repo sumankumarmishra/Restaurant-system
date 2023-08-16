@@ -1,0 +1,28 @@
+﻿@model IEnumerable<Restugrp07.Models.Category>
+
+@{
+    Layout = null;
+}
+
+
+
+
+<div class="side-nav-categories">
+    <div class="block-title"> Categories </div>
+    <!--block-title-->
+    <!-- BEGIN BOX-CATEGORY -->
+    <div class="box-content box-category">
+        <ul>
+
+
+            @foreach (var item in Model)
+            {
+                <li>
+                    <a class="active" href="/admin/admin/Products?catId=@item.Id">@item.Name</a>
+                </li>
+            }
+
+        </ul>
+    </div>
+    <!--box-content box-category-->
+</div>

@@ -1,0 +1,198 @@
+﻿@model IEnumerable<Restugrp07.Models.CartVM>
+
+<div id="content" class="site-content">
+    <!-- Breadcrumb -->
+    <div id="breadcrumb">
+        <div class="container">
+            <h2 class="title">Shopping Cart</h2>
+
+            <ul class="breadcrumb">
+                <li><a href="#" title="Home">Home</a></li>
+                <li><span>Shopping Cart</span></li>
+            </ul>
+        </div>
+    </div>
+
+    @if (TempData["Error"] != null)
+    {
+        <div align="center" class="alert-danger">
+            <h5>@TempData["Error"]</h5>
+        </div>
+    }
+    @if (TempData["Sucess"] != null)
+    {
+        <div align="center" class="alert-success">
+            <h5>@TempData["Error"]</h5>
+        </div>
+    }
+
+
+    @if (ViewBag.Message != null)
+    {
+        <br />
+        <br />
+
+        <div align="center">
+            <h3>YOUR CART IS EMPTY</h3>
+        </div>
+        <br />
+        <br />
+
+    }
+
+    else
+    {
+
+
+        <div class="container">
+            <div class="page-cart">
+                <div class="table-responsive">
+                    <table class="cart-summary table table-bordered">
+                        <thead>
+                            <tr>
+                                <th class="width-20">&nbsp;</th>
+                                <th class="width-80 text-center">Image</th>
+                                <th>Name</th>
+                                <th class="width-100 text-center">Unit price</th>
+                                <th class="width-100 text-center">Qty</th>
+                                <th class="width-100 text-center">Total</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td class="product-remove">
+                                        <a title="Remove this item" class="remove" href="/home/removeproduct?productId=@item.ProductId">
+                                            <i class="fa fa-times"></i>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a href="#">
+                                            <img width="80" alt="Product Image" style="height:50px" class="img-responsive" src="/images/uploads/products/@item.ProductId/@item.Image">
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a href="product-detail-left-sidebar.html" class="product-name">@item.ProductName</a>
+                                    </td>
+                                    <td class="text-center">
+                                        R @item.Price
+                                    </td>
+                                    <td>
+                                        <div class="product-quantity">
+                                            <div class="qty">
+                                                <div class="input-group">
+                                                    <input type="text" name="qty" value="@item.Quantity" data-min="1">
+                                                    <span class="adjust-qty">
+                                                        <span class="adjust-btn plus" onclick="window.location.replace('/home/incrementproduct?productId=@item.ProductId')"> ➕</span>
+                                                        <span class="adjust-btn minus" onclick="window.location.replace('/home/decrementproduct?productId=@item.ProductId')"> ➖</span>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="text-center">
+                                        R @item.Total
+                                    </td>
+                                </tr>
+
+                            }
+                        </tbody>
+
+
+                    </table>
+                </div>
+
+
+                <div class="cart-collaterals container">
+                    <!-- BEGIN COL2 SEL COL 1 -->
+                    <!-- BEGIN TOTALS COL 2 -->
+                    <form action="/home/PlaceOrder" method="post">
+
+                        <div class="col-sm-4">
+
+
+                            <div class="shipping">
+
+                                <h3>Delivery Option</h3>
+                                <div class="shipping-form">
+                                    <p>Please use options below</p>
+                                    <ul class="form-list">
+
+                                        <li>
+                                            <div class="input-box">
+                                                <select id="shipping" name="shipping" title="Delivery options" defaultvalue="non" required class="required-entry validate-select">
+                                                    <option value="non">Please choose delivery or collect option</option>
+                                                    <option value="address" title="Delivery">Delivery</option>
+                                                    <option value="TOBECOLLECTED" title="Collect">Collect</option>
+                                                </select>
+                                            </div>
+                                        </li>
+
+                                    </ul>
+
+
+
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="col-sm-4">
+
+                            <div class="discount">
+                                <h3></h3>
+                                <div class="buttons-set11">
+
+                                </div> <!--buttons-set11-->
+
+
+                            </div> <!--discount-->
+                        </div> <!--col-sm-4-->
+
+                        <div class="col-sm-4">
+                            <div class="totals">
+                                <h3>Shopping Cart Total</h3>
+                                <div class="inner">
+
+                                    <table id="shopping-cart-totals-table" class="table shopping-cart-table-total">
+                                        <colgroup>
+                                            <col>
+                                            <col width="1">
+                                        </colgroup>
+                                        <tfoot>
+                                            <tr>
+                                                <td style="" class="a-left" colspan="1">
+                                                    <strong>Grand Total</strong>
+                                                </td>
+                                                <td style="" class="a-right">
+                                                    <strong><span class="price">R @ViewBag.GrandTotal</span></strong>
+                                                </td>
+                                            </tr>
+                                        </tfoot>
+
+                                    </table>
+
+                                    <ul class="checkout">
+                                        <li>
+                                            <button type="submit" title="Proceed to Checkout" class="btn btn-danger pull-right" onClick="window.location.href='/home/placeorder'"><span>Proceed to Checkout</span></button>
+                                        </li>
+                                        <br>
+
+                                    </ul>
+                                </div><!--inner-->
+                            </div><!--totals-->
+
+                        </div> <!--col-sm-4-->
+                    </form>
+
+
+
+                </div> <!--cart-collaterals-->
+
+            </div>
+        </div>
+
+    }
+</div>

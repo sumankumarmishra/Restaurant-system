@@ -1,0 +1,61 @@
+﻿@model IEnumerable<Restugrp07.Models.Tradein>
+
+@{
+    ViewBag.Title = "Tradeins";
+}
+
+<h2>Tradeins</h2>
+
+
+<br />
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Itemname)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.Total)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Status)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.Purchasedate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Requestassessor)
+        </th>
+
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Itemname)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Total)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Purchasedate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Requestassessor)
+            </td>
+
+            <td>
+                <a href="/Admin/Admin/tradeindetails?appid=@item.Id" class="btn btn-info">Trade in details</a>
+            </td>
+        </tr>
+    }
+
+</table>

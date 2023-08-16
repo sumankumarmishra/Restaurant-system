@@ -1,0 +1,112 @@
+﻿@model Restugrp07.Models.Resevation
+
+@{
+    ViewBag.Title = "resevationlayout";
+}
+
+<div style="padding:10px 10px 10px 10px">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        .column {
+            float: left;
+            width: 33.33%;
+            padding: 5px;
+        }
+
+        /* Clearfix (clear floats) */
+        .row::after {
+            content: "";
+            clear: both;
+            display: table;
+        }
+
+        .column:hover {
+            background-color: red;
+            color:white;
+            animation-name:movearound;
+        }
+      
+    </style>
+
+    <h2>Select table layout</h2>
+
+    <form action="/home/resevationlayout" method="post" id="myform">
+        <br />
+        <div align="center" style="margin:5px">
+
+            <div class="row">
+                <div class="column">
+                    <img src="~/radial.png" alt="Snow" onclick="change('radial')"  class="img" style="width:100%;height:250px">
+                    <h4>Radial</h4>
+                </div>
+
+                <div class="column">
+                    <img src="~/rectagle.jpg" alt="Forest" onclick="change('rectangle')" style="width:100%;height:250px">
+                    <h4>Rectangle/Square</h4>
+                </div>
+
+                <div class="column">
+                    <img src="~/oval.jpg" alt="Mountains "onclick="change('oval')" style="width:100%;height:250px">
+                    <h4>Oval</h4>
+                </div>
+            </div>
+
+            
+
+            <script>
+                
+                function change(value) {
+                    document.getElementById("lay").value = value;
+                    document.getElementById("lay2").value = value;
+
+                }
+
+                function submitt() {
+                    var len = $('#lay').val().length;
+
+                    if (len > 1) {
+                        $("#myform").submit();
+                    }
+                    else {
+                        alert("Please select table layout");
+
+                    }
+                }
+               
+            </script>
+
+        </div>
+
+        <br />
+
+        <div style="margin:5px">
+            <h2>Selected table layout</h2>
+
+            <input type="text" id="lay" class="form-control" disabled  required />
+            <input type="hidden" id="lay2" class="form-control" name="Tablelayout" required />
+            <br />
+
+            <h2>Select theme colour</h2>
+
+            <input type="color" class="form-control" name="Themecolor" value="#ffffff" style="height:80px" required />
+
+            @Html.HiddenFor(x => x.Id)
+
+            <br />
+
+            <input type="button" onclick="submitt()" style="width:100%"  class="btn btn-danger" value="NEXT" />
+
+        </div>
+
+    </form>
+
+   
+    
+
+
+
+</div>

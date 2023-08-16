@@ -1,0 +1,49 @@
+﻿@model IEnumerable<Restugrp07.Models.ProductVM>
+
+@{
+    ViewBag.Title = "Products";
+}
+
+
+
+
+
+
+<div align ="center">
+    <h4>PRODUCTS</h4>
+</div>
+
+<br />
+
+<a href="/admin/admin/addproduct" class="btn btn-danger">ADD MENU</a>
+<br />
+<br />
+
+<div style="display:inline-block">
+
+    @foreach (var item in Model)
+    {
+        <div style="display:inline-block">
+
+            <div align="center" style="height:450px;border-style:dashed">
+                <h5 style="height:3em">@item.Name</h5>
+                <img src="/images/uploads/products/@item.Id/@item.ImageName" style="height:300px;width:250px" />
+
+
+                <p>Category : @item.CategoryName</p>
+                <p>Price: R @item.Price</p>
+
+                <a href="/admin/admin/productdetails?qname=@item.Query">Details</a> | <a href="/admin/admin/Editproduct?id=@item.Id">Update</a>
+
+            </div>
+
+
+        </div>
+
+
+    }
+
+</div>
+
+   
+

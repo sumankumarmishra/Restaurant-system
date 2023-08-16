@@ -1,0 +1,36 @@
+﻿@model Restugrp07.Models.Delivery
+
+@{
+    ViewBag.Title = "Sign Delivery";
+}
+
+
+<div align="center">
+
+
+    <br />
+    <br />
+    <h3>Velidate delivery</h3>
+    <br />
+    <br />
+
+
+    <form action="/driver/SignDeliveryPost">
+        <label>Customer email</label>
+        <br />
+        <input type="email" name="email" class="form-control" required />
+
+        <br />
+        <label>Order number</label>
+        <br />
+        <input type="number" name="id" class="form-control" required />
+        <input type="hidden" name="delid" value="@Model.Id" />
+
+
+        <br />
+        <input type="submit" class="btn btn-danger" value="VALIDATE DELIVERY" />
+        <br />
+        <br />
+
+    </form>
+</div>

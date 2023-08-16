@@ -1,0 +1,144 @@
+﻿@model Restugrp07.Models.Tradein
+
+@{
+    ViewBag.Title = "tradeindetails";
+}
+
+<h2>tradein details</h2>
+
+<div>
+    <table>
+        <tr>
+            <th>Tradein info</th>
+            <th>
+                Tradein Docs
+            </th>
+        </tr>
+
+        <tr>
+            <td>
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Itemname)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Itemname)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Itemdescription)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Itemdescription)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Total)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Total)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Status)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Status)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Statusnum)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Statusnum)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Itemimage)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Itemimage)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Useremail)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Useremail)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Assessoremail)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Assessoremail)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Proofofownership)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Proofofownership)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Idcopy)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Idcopy)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Travelfee)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Travelfee)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Purchasedate)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Purchasedate)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Requestassessor)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Requestassessor)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Address)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Address)
+                    </dd>
+
+                </dl>
+            </td>
+            <td>
+
+            </td>
+        </tr>
+
+    </table>
+
+  <a href="/admin/admin/Allocateassessor?appid=@Model.Id" class="btn btn-success" style="width:100%">Allocate assessor</a>
+</div>
+

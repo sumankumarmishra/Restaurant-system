@@ -1,0 +1,59 @@
+﻿@model IEnumerable<Restugrp07.Models.OrdersForUserVM>
+
+@{
+    ViewBag.Title = "Orders";
+    Layout = null;
+}
+
+<table class="data-table table-striped" id="my-orders-table">
+    <colgroup>
+        <col width="">
+        <col width="">
+        <col>
+        <col width="1">
+        <col width="1">
+        <col width="20%">
+    </colgroup>
+    <thead>
+        <tr class="first last">
+            <th>Order # </th>
+            <th>Date</th>
+            <th>Ship To</th>
+            <th><span class="nobr">Order Total</span></th>
+            <th>Status</th>
+            <th>&nbsp;</th>
+            <th>&nbsp;</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr class="first odd">
+                <td>@item.OrderNumber</td>
+                <td><span class="nobr">@item.CreatedAt</span></td>
+                <td><span class="nobr"> @item.Destination</span> </td>
+                <td><span class="price">R @item.Total</span></td>
+                <td><em>@item.Status</em></td>
+                @*<td class="a-center last"><span class="nobr"> <a href="/ho]me/OrderDetails?id=@item.OrderNumber">View Order</a> </span></td>*@
+                <td class="a-center last"><span class="nobr"> <a href="/Account/Track?id=@item.OrderNumber" class="btn btn-danger">Track Order</a>
+                      <a href="/home/viewslip?id=@item.OrderNumber" class="btn btn-danger">SLIP</a>
+                      
+                      </span></td>
+
+                @if (item.Ordertypenum == 2 && item.Counter != item.Tems)
+                {
+                    <td class="a-center last">
+                        <span class="nobr">
+                            <a href="/Home/laybuyrepayments?orderid=@item.OrderNumber" class="btn btn-info">Pay</a>
+                        </span>
+                    </td>
+                }
+
+            </tr>
+        }
+
+
+    </tbody>
+</table>
+
+

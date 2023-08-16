@@ -1,0 +1,70 @@
+﻿@model IEnumerable<Restugrp07.Models.DeliveryVM>
+
+@{
+    ViewBag.Title = "NewDeliveries";
+}
+
+<h2>My Order Deliveries</h2>
+<br />
+<br />
+
+<table class="table">
+    <tr>
+
+
+        <th>
+            @Html.DisplayNameFor(model => model.OrderId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NumberPlate)
+        </th>
+        <th>
+            Driver Name
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Destination)
+        </th>
+        <th>
+            Time /Date
+        </th>
+
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+
+
+            <td>
+                @Html.DisplayFor(modelItem => item.OrderId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NumberPlate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DriverName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Destination)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PickUpTime)
+            </td>
+
+
+            <td>
+                @if (item.Orderstatusnum != 5)
+                {
+                    <a href="/Driver/StartDelivery?id=@item.Id" class="btn btn-danger">DELIVER TO CUSTOMER ADDRESS</a>
+                }
+                else
+                {
+                    <p>ORDER DELIVERED</p>
+                }
+
+            </td>
+        </tr>
+    }
+
+</table>

@@ -1,0 +1,80 @@
+﻿@model IEnumerable<Restugrp07.Models.Partrequest>
+
+@{
+    ViewBag.Title = "Myrequests";
+}
+
+<h2>New part requests</h2>
+
+<p>
+    <a href="/admin/admin/processedrequests" class="btn btn-info">Processed requests</a>
+</p>
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Useremail)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Partnumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Partimage)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Partcarmodel)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Date)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Price)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Status)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.Condition)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Useremail)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Partnumber)
+            </td>
+            <td>
+                <a href="/Images/Uploads/Parts/@item.Id/@item.Partimage">
+                    <img src="~/Images/Uploads/Parts/@item.Id/@item.Partimage" style="width:100px;height:80px" />
+                </a>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Partcarmodel)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Date)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Condition)
+            </td>
+            <td>
+                <a href="/admin/admin/requestdetails?id=@item.Id" class="btn btn-success">Request Details</a>
+            </td>
+        </tr>
+    }
+
+</table>

@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\EntityFramework.6.4.4\build\EntityFramework.props" Condition="Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" />
   <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -45,7 +46,30 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="BouncyCastle.Crypto, Version=1.8.9.0, Culture=neutral, PublicKeyToken=0e99375e54769942">
+      <HintPath>..\packages\BouncyCastle.1.8.9\lib\BouncyCastle.Crypto.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp, Version=5.5.13.3, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\iTextSharp.5.5.13.3\lib\itextsharp.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="PagedList, Version=1.17.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
+    </Reference>
+    <Reference Include="PagedList.Mvc, Version=4.5.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="QRCoder, Version=1.4.3.0, Culture=neutral, PublicKeyToken=c4ed5b9ae8358a28, processorArchitecture=MSIL">
+      <HintPath>..\packages\QRCoder.1.4.3\lib\net40\QRCoder.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -110,6 +134,7 @@
       <Private>True</Private>
       <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform">
@@ -120,10 +145,18 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
+    <Compile Include="Areas\Admin\Controllers\AdminController.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\DriverController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\Db.cs" />
+    <Compile Include="Models\Models.cs" />
+    <Compile Include="Models\ViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -131,12 +164,265 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\PagedList.css" />
+    <Content Include="css\animate.min.css" />
+    <Content Include="css\bootstrap.min.css" />
+    <Content Include="css\colors.css" />
+    <Content Include="css\colors2.css" />
+    <Content Include="css\dscountdown.css" />
+    <Content Include="css\flaticon.css" />
+    <Content Include="css\magnific-popup.css" />
+    <Content Include="css\nice-select.css" />
+    <Content Include="css\owl.carousel.min.css" />
+    <Content Include="css\owl.theme.default.css" />
+    <Content Include="css\owl.video.play.html" />
+    <Content Include="css\responsive.css" />
+    <Content Include="css\slick-theme.css" />
+    <Content Include="css\slick.css" />
+    <Content Include="css\style.css" />
     <Content Include="favicon.ico" />
+    <Content Include="font-awesome\css\fontawesome-all.min.css" />
+    <Content Include="font-awesome\webfonts\fa-brands-400.svg" />
+    <Content Include="font-awesome\webfonts\fa-regular-400.svg" />
+    <Content Include="font-awesome\webfonts\fa-solid-900.svg" />
+    <Content Include="fonts\Flaticon.svg" />
+    <Content Include="fonts\glyphicons-halflings-regular-2.html" />
+    <Content Include="fonts\glyphicons-halflings-regular-3.html" />
+    <Content Include="fonts\glyphicons-halflings-regular-4.html" />
+    <Content Include="fonts\glyphicons-halflings-regular-5.html" />
+    <Content Include="fonts\glyphicons-halflings-regular.html" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="fonts\glyphicons-halflings-regulard41d.html" />
+    <Content Include="fonts\slick.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="html5-qrcode.min.js" />
+    <Content Include="images\about.jpg" />
+    <Content Include="images\ajax-loader.gif" />
+    <Content Include="images\bg.png" />
+    <Content Include="images\bg1.png" />
+    <Content Include="images\bg10.jpg" />
+    <Content Include="images\bg2.jpg" />
+    <Content Include="images\bg3.jpg" />
+    <Content Include="images\bg4.jpg" />
+    <Content Include="images\bg5.jpg" />
+    <Content Include="images\bg6.jpg" />
+    <Content Include="images\bg7.jpg" />
+    <Content Include="images\bg8.jpg" />
+    <Content Include="images\bg9.jpg" />
+    <Content Include="images\bgr1.png" />
+    <Content Include="images\bgr2.png" />
+    <Content Include="images\big-img1.jpg" />
+    <Content Include="images\big-img2.jpg" />
+    <Content Include="images\big-img3.jpg" />
+    <Content Include="images\big-img4.jpg" />
+    <Content Include="images\big-img5.jpg" />
+    <Content Include="images\big-img6.jpg" />
+    <Content Include="images\blog1.jpg" />
+    <Content Include="images\blog2.jpg" />
+    <Content Include="images\blog3.jpg" />
+    <Content Include="images\boy.jpg" />
+    <Content Include="images\brd.png" />
+    <Content Include="images\brd2.png" />
+    <Content Include="images\brd2_2.png" />
+    <Content Include="images\brd_2.png" />
+    <Content Include="images\btm-style.png" />
+    <Content Include="images\ckn.png" />
+    <Content Include="images\clr2\btm-style.png" />
+    <Content Include="images\crt1.png" />
+    <Content Include="images\crt2.png" />
+    <Content Include="images\crt3.png" />
+    <Content Include="images\crt4.png" />
+    <Content Include="images\drinks.png" />
+    <Content Include="images\fav2.ico" />
+    <Content Include="images\footer-bg.jpg" />
+    <Content Include="images\fries.png" />
+    <Content Include="images\girl-blog.jpg" />
+    <Content Include="images\girl.jpg" />
+    <Content Include="images\girl1.jpg" />
+    <Content Include="images\girl2.jpg" />
+    <Content Include="images\gt-logo1.png" />
+    <Content Include="images\gt-logo2.png" />
+    <Content Include="images\gt-logo_1.png" />
+    <Content Include="images\gt-logo_2.png" />
+    <Content Include="images\habit2.jpg" />
+    <Content Include="images\img.png" />
+    <Content Include="images\img1.png" />
+    <Content Include="images\img10.png" />
+    <Content Include="images\img11.png" />
+    <Content Include="images\img12.jpg" />
+    <Content Include="images\img12.png" />
+    <Content Include="images\img13.png" />
+    <Content Include="images\img14.jpg" />
+    <Content Include="images\img14.png" />
+    <Content Include="images\img15.jpg" />
+    <Content Include="images\img15.png" />
+    <Content Include="images\img16.jpg" />
+    <Content Include="images\img16.png" />
+    <Content Include="images\img17.jpg" />
+    <Content Include="images\img17.png" />
+    <Content Include="images\img18.jpg" />
+    <Content Include="images\img19.jpg" />
+    <Content Include="images\img2.png" />
+    <Content Include="images\img20.jpg" />
+    <Content Include="images\img21.jpg" />
+    <Content Include="images\img22.jpg" />
+    <Content Include="images\img23.jpg" />
+    <Content Include="images\img24.jpg" />
+    <Content Include="images\img25.jpg" />
+    <Content Include="images\img26.jpg" />
+    <Content Include="images\img27.jpg" />
+    <Content Include="images\img28.jpg" />
+    <Content Include="images\img29.jpg" />
+    <Content Include="images\img3.png" />
+    <Content Include="images\img30.jpg" />
+    <Content Include="images\img31.jpg" />
+    <Content Include="images\img32.jpg" />
+    <Content Include="images\img4.png" />
+    <Content Include="images\img5.png" />
+    <Content Include="images\img6.jpg" />
+    <Content Include="images\img6.png" />
+    <Content Include="images\img7.png" />
+    <Content Include="images\img8.png" />
+    <Content Include="images\img9.jpg" />
+    <Content Include="images\img9.png" />
+    <Content Include="images\info-bg.jpg" />
+    <Content Include="images\last-grl.jpg" />
+    <Content Include="images\Layer-12.jpg" />
+    <Content Include="images\Layer-13.jpg" />
+    <Content Include="images\Layer-14.jpg" />
+    <Content Include="images\Layer-15.jpg" />
+    <Content Include="images\Layer-16.png" />
+    <Content Include="images\Layer-17.jpg" />
+    <Content Include="images\Layer-18.jpg" />
+    <Content Include="images\Layer-19.jpg" />
+    <Content Include="images\loader.gif" />
+    <Content Include="images\logo.png" />
+    <Content Include="images\logo2.png" />
+    <Content Include="images\p-img1.png" />
+    <Content Include="images\p-img10.png" />
+    <Content Include="images\p-img11.png" />
+    <Content Include="images\p-img12.png" />
+    <Content Include="images\p-img13.png" />
+    <Content Include="images\p-img14.png" />
+    <Content Include="images\p-img15.png" />
+    <Content Include="images\p-img16.png" />
+    <Content Include="images\p-img17.png" />
+    <Content Include="images\p-img18.png" />
+    <Content Include="images\p-img19.png" />
+    <Content Include="images\p-img2.png" />
+    <Content Include="images\p-img20.png" />
+    <Content Include="images\p-img21.png" />
+    <Content Include="images\p-img22.png" />
+    <Content Include="images\p-img23.png" />
+    <Content Include="images\p-img24.png" />
+    <Content Include="images\p-img25.png" />
+    <Content Include="images\p-img3.png" />
+    <Content Include="images\p-img4.png" />
+    <Content Include="images\p-img5.png" />
+    <Content Include="images\p-img6.png" />
+    <Content Include="images\p-img7.png" />
+    <Content Include="images\p-img8.png" />
+    <Content Include="images\p-img9.png" />
+    <Content Include="images\pizza.png" />
+    <Content Include="images\pizzaaa.jpg" />
+    <Content Include="images\product1.png" />
+    <Content Include="images\profile-pic.png" />
+    <Content Include="images\profile-pic1.png" />
+    <Content Include="images\profile-pic11.png" />
+    <Content Include="images\ptrn1.jpg" />
+    <Content Include="images\pz.png" />
+    <Content Include="images\pz1.png" />
+    <Content Include="images\r_img1.png" />
+    <Content Include="images\r_img2.png" />
+    <Content Include="images\r_img3.png" />
+    <Content Include="images\shutter.jpg" />
+    <Content Include="images\sld.png" />
+    <Content Include="images\sldr.png" />
+    <Content Include="images\slider-bg1.jpg" />
+    <Content Include="images\slider-png1.png" />
+    <Content Include="images\taco.png" />
+    <Content Include="js\bootstrap.min.html" />
+    <Content Include="js\custom.js" />
+    <Content Include="js\dscountdown.min.js" />
+    <Content Include="js\jquery.magnific-popup.min.js" />
+    <Content Include="js\jquery.min.js" />
+    <Content Include="js\jquery.nice-select.js" />
+    <Content Include="js\map.js" />
+    <Content Include="js\mixitup.min.js" />
+    <Content Include="js\owl.carousel.min.js" />
+    <Content Include="js\slick.js" />
+    <Content Include="oval.jpg" />
+    <Content Include="radial.png" />
+    <Content Include="rectagle.jpg" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="font-awesome\webfonts\fa-brands-400.eot" />
+    <Content Include="font-awesome\webfonts\fa-brands-400.ttf" />
+    <Content Include="font-awesome\webfonts\fa-brands-400.woff" />
+    <Content Include="font-awesome\webfonts\fa-brands-400.woff2" />
+    <Content Include="font-awesome\webfonts\fa-brands-400d41d.eot" />
+    <Content Include="font-awesome\webfonts\fa-regular-400.eot" />
+    <Content Include="font-awesome\webfonts\fa-regular-400.ttf" />
+    <Content Include="font-awesome\webfonts\fa-regular-400.woff" />
+    <Content Include="font-awesome\webfonts\fa-regular-400.woff2" />
+    <Content Include="font-awesome\webfonts\fa-regular-400d41d.eot" />
+    <Content Include="font-awesome\webfonts\fa-solid-900.eot" />
+    <Content Include="font-awesome\webfonts\fa-solid-900.ttf" />
+    <Content Include="font-awesome\webfonts\fa-solid-900.woff" />
+    <Content Include="font-awesome\webfonts\fa-solid-900.woff2" />
+    <Content Include="font-awesome\webfonts\fa-solid-900d41d.eot" />
+    <Content Include="fonts\Flaticon.eot" />
+    <Content Include="fonts\Flaticon.woff" />
+    <Content Include="fonts\slick.eot" />
+    <Content Include="fonts\slick.ttf" />
+    <Content Include="fonts\slick.woff" />
+    <Content Include="fonts\slickd41d.eot" />
+    <Content Include="Areas\Admin\Views\web.config" />
+    <Content Include="Areas\Admin\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\Admin\Views\Admin\AddPickPoint.cshtml" />
+    <Content Include="Areas\Admin\Views\Admin\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Admin\AddAssessor.cshtml" />
+    <Content Include="Areas\Admin\Views\Admin\AddCategory.cshtml" />
+    <Content Include="Areas\Admin\Views\Admin\AddDelivery.cshtml" />
+    <Content Include="Areas\Admin\Views\Admin\Adddriver.cshtml" />
+    <Content Include="Areas\Admin\Views\Admin\AddProduct.cshtml" />
+    <Content Include="Areas\Admin\Views\Admin\Allocateassessor.cshtml" />
+    <Content Include="Areas\Admin\Views\Admin\Approvedrefunds.cshtml" />
+    <Content Include="Areas\Admin\Views\Admin\ApproveRefund.cshtml" />
+    <Content Include="Areas\Admin\Views\Admin\AssessorDetails.cshtml" />
+    <Content Include="Areas\Admin\Views\Admin\Assessors.cshtml" />
+    <Content Include="Areas\Admin\Views\Admin\AssessorVehicle.cshtml" />
+    <Content Include="Areas\Admin\Views\Admin\Categories.cshtml" />
+    <Content Include="Areas\Admin\Views\Admin\CollectOrder.cshtml" />
+    <Content Include="Areas\Admin\Views\Admin\Deliveries.cshtml" />
+    <Content Include="Areas\Admin\Views\Admin\DirverDetails.cshtml" />
+    <Content Include="Areas\Admin\Views\Admin\Drivers.cshtml" />
+    <Content Include="Areas\Admin\Views\Admin\DriverVehicle.cshtml" />
+    <Content Include="Areas\Admin\Views\Admin\EditProduct.cshtml" />
+    <Content Include="Areas\Admin\Views\Admin\NewPartrquests.cshtml" />
+    <Content Include="Areas\Admin\Views\Admin\OrderCollected.cshtml" />
+    <Content Include="Areas\Admin\Views\Admin\OrderCollectFailed.cshtml" />
+    <Content Include="Areas\Admin\Views\Admin\Orders.cshtml" />
+    <Content Include="Areas\Admin\Views\Admin\ProcessedOrders.cshtml" />
+    <Content Include="Areas\Admin\Views\Admin\Processedpartdetails.cshtml" />
+    <Content Include="Areas\Admin\Views\Admin\Processedrequests.cshtml" />
+    <Content Include="Areas\Admin\Views\Admin\Processedtradeins.cshtml" />
+    <Content Include="Areas\Admin\Views\Admin\ProductDetails.cshtml" />
+    <Content Include="Areas\Admin\Views\Admin\Products.cshtml" />
+    <Content Include="Areas\Admin\Views\Admin\Refunds.cshtml" />
+    <Content Include="Areas\Admin\Views\Admin\RequestDetails.cshtml" />
+    <Content Include="Areas\Admin\Views\Admin\Sidecategories.cshtml" />
+    <Content Include="Areas\Admin\Views\Admin\tradeindetails.cshtml" />
+    <Content Include="Areas\Admin\Views\Admin\Tradeins.cshtml" />
+    <Content Include="Areas\Admin\Views\Admin\Resevations.cshtml" />
+    <Content Include="Areas\Admin\Views\Admin\Confirmitemsavailability.cshtml" />
+    <Content Include="Areas\Admin\Views\Admin\resvationdetails.cshtml" />
+    <Content Include="Areas\Admin\Views\Admin\Approveresevation.cshtml" />
+    <Content Include="Areas\Admin\Views\Admin\Assignwaiter.cshtml" />
+    <None Include="Properties\PublishProfiles\2023grp07a - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\2023grp07a - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -148,6 +434,11 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Sign\index.html" />
+    <Content Include="Sign\process.php" />
+    <Content Include="Sign\signature_pad.js" />
+    <Content Include="Sign\w3.css" />
+    <Content Include="videos\vid1.mp4" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -159,13 +450,33 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Account\CreateAccount.cshtml" />
+    <Content Include="Views\Home\Products.cshtml" />
+    <Content Include="Views\Home\Cart.cshtml" />
+    <Content Include="Views\Account\MyProfile.cshtml" />
+    <Content Include="Views\Account\Orders.cshtml" />
+    <Content Include="Views\Account\GetOrderAddress.cshtml" />
+    <Content Include="Views\Home\PaymentOptions.cshtml" />
+    <Content Include="Views\Account\Track.cshtml" />
+    <Content Include="Views\Driver\NewDeliveries.cshtml" />
+    <Content Include="Views\Driver\SignDelivery.cshtml" />
+    <Content Include="Views\Driver\Signfailed.cshtml" />
+    <Content Include="Views\Driver\SignResult.cshtml" />
+    <Content Include="Views\Driver\StartDelivery.cshtml" />
+    <Content Include="Views\Home\viewslip.cshtml" />
+    <Content Include="Views\Home\Reserveatable.cshtml" />
+    <Content Include="Views\Home\resevationlayout.cshtml" />
+    <Content Include="Views\Home\Selectexclusivemeal.cshtml" />
+    <Content Include="Views\Home\Resevationmeals.cshtml" />
+    <Content Include="Views\Home\Orderdetailsandpayment.cshtml" />
+    <Content Include="Views\Home\paymentresevationmeals.cshtml" />
+    <Content Include="Views\Home\Myresevations.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
+    <Folder Include="Areas\Admin\Models\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -213,7 +524,10 @@
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+    <Error Condition="!Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.4\build\EntityFramework.props'))" />
+    <Error Condition="!Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.4\build\EntityFramework.targets'))" />
   </Target>
+  <Import Project="..\packages\EntityFramework.6.4.4\build\EntityFramework.targets" Condition="Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

@@ -1,0 +1,80 @@
+﻿@model IEnumerable<Restugrp07.Models.Resevationmeal>
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+</head>
+<body>
+
+    <table class="table">
+        <tr>
+            <th>
+
+            </th>
+            <th>
+                Item name
+            </th>
+            <th>
+                Item Total
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Quantityordered)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.isAvailable)
+            </th>
+
+
+
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <th>
+                    <img src="~/images/uploads/products/@item.Product.Id/@item.Product.ImageName" style="height:50px;width:100%" alt="" class="img-rounded">
+                </th>
+                <th>
+                    @item.Product.Name
+                </th>
+                <td>
+                    R @int.Parse((item.Quantityordered * item.Product.Price).ToString())
+
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Quantityordered)
+                </td>
+                <td>
+                    @if (item.isChecked == true)
+                    {
+                        @Html.DisplayFor(modelItem => item.isAvailable)
+                    }
+                    else
+                    {
+                        <a href="/admin/admin/available?resmId=@item.Id" class="btn btn-success">✔</a>
+                        <a href="/admin/admin/notavailable?resmId=@item.Id" class="btn btn-danger">❌</a>
+                    }
+
+                </td>
+
+            </tr>
+        }
+
+
+
+    </table>
+
+    <br />
+    @if (Model.Where(x => x.isChecked == false).Count() == 0)
+    {
+        <a href="/admin/admin/Approveresevation?resId=@Model.FirstOrDefault().ResevationId" class="btn btn-success" style="width:100%">PROOCEED TO APPROVAL / DECLINE</a>
+    }
+</body>
+</html>

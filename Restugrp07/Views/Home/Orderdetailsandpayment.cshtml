@@ -1,0 +1,143 @@
+﻿@model Restugrp07.Models.Resevation
+
+@{
+    ViewBag.Title = "Orderdetailsandpayment";
+}
+
+<h2>Order details and payment</h2>
+
+<br />
+
+
+<div class="row">
+
+    <div class="col-sm-5">
+        @Html.Action("paymentresevationmeals","Home")
+    </div>
+
+    <div class="col-sm-5">
+        <div>
+            <h4>Resevation</h4>
+            <hr />
+            <dl class="dl-horizontal">
+
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Occationdate)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Occationdate)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Numberofguests)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Numberofguests)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Resevationtype)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Resevationtype)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Status)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Status)
+                </dd>
+
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Tablelayout)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Tablelayout)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Themecolor)
+                </dt>
+
+                <dd>
+                    <div style="height:30px;width:100px;background-color:@Model.Themecolor;border-radius:5px">
+
+                    </div>
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Servicefee)
+                </dt>
+
+                <dd>
+                    R @Html.DisplayFor(model => model.Servicefee)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Total)
+                </dt>
+
+                <dd>
+                    R @Html.DisplayFor(model => model.Total)
+                </dd>
+
+
+            </dl>
+        </div>
+       
+
+    </div>
+
+</div>
+
+<br />
+
+<div align="center" style="align-content:center;padding-left:20%;padding-right:20%">
+    <div style="height:200px;" align="center">
+        <div id="paypal-button-container"></div>
+        <!-- Include the PayPal JavaScript SDK -->
+        <script src="https://www.paypal.com/sdk/js?client-id=test&currency=USD"></script>
+        <script>
+                    // Render the PayPal button into #paypal-button-container
+                    paypal.Buttons({
+
+                        // Set up the transaction
+                        createOrder: function (data, actions) {
+                            return actions.order.create({
+                                purchase_units: [{
+                                    amount: {
+                                        value: (@Model.Total * 0.066).toFixed(2)
+                                    }
+                                }]
+                            });
+                        },
+
+                        // Finalize the transaction
+                        onApprove: function (data, actions) {
+                            return actions.order.capture().then(function (orderData) {
+                                // Successful capture! For demo purposes:
+                                console.log('Capture result', orderData, JSON.stringify(orderData, null, 2));
+                                var transaction = orderData.purchase_units[0].payments.captures[0];
+                                alert('Transaction ' + transaction.status + ': ' + transaction.id + '\n\nSee console for all available details');
+
+                                window.location.replace("/home/Resevationpaid?resId=@Model.Id");
+                            });
+                        }
+
+
+                    }).render('#paypal-button-container');
+        </script>
+
+    </div>
+
+
+</div>
+
+

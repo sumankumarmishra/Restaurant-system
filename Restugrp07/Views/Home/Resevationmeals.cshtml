@@ -1,0 +1,71 @@
+﻿@model IEnumerable<Restugrp07.Models.Resevationmeal>
+
+@{
+    ViewBag.Title = "Resevation meals";
+}
+
+
+<br />
+<h2>Update / confirm resevation meal</h2>
+<br />
+
+<p>
+</p>
+<table class="table">
+    <tr>
+        <th>
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Product.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Quantityordered)
+        </th>
+        <th>
+            Item price
+        </th>
+         <th>
+            Item total
+        </th>
+
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                <img src="~/images/uploads/products/@item.Product.Id/@item.Product.ImageName" style="height:100px;width:100%" alt="" class="img-rounded">
+
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Product.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Quantityordered)
+            </td>
+
+            <td>
+                R @Html.DisplayFor(modelItem => item.Product.Price)
+            </td>
+
+            <td>
+                R @int.Parse((item.Quantityordered * item.Product.Price).ToString())
+            </td>
+
+            <td>
+                @Html.ActionLink("X", "rem", new { resmealId = item.Id },new { @class="btn btn-danger"}) |
+                @Html.ActionLink("-", "decre", new { resmealId = item.Id }, new { @class = "btn btn-warning" }) |
+                @Html.ActionLink("+", "incre", new { resmealId = item.Id }, new { @class = "btn btn-success" })
+            </td>
+        </tr>
+    }
+
+</table>
+
+<div align="center">
+    <a href="/home/selectexclusivemeal?resId=@ViewBag.resId" class="btn btn-danger" style="width:45%">ADD MORE MEAL</a>
+    @if (Model.ToList().Count > 0)
+    {
+        <a href="/home/Orderdetailsandpayment?resId=@ViewBag.resId" class="btn btn-success" style="width:45%">PROCEED TO PAYMENT</a>
+    }
+</div>

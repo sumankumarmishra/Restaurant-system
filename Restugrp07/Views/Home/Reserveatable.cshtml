@@ -1,0 +1,55 @@
+﻿@model Restugrp07.Models.Resevation
+
+@{
+    ViewBag.Title = "Reserve a table";
+}
+
+<h2>Reserve a table</h2>
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.Occationdate, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input type="datetime-local" name="Occationdate" class="form-control" required />
+
+                @Html.ValidationMessageFor(model => model.Occationdate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Numberofguests, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Numberofguests, new { htmlAttributes = new { @class = "form-control", } })
+                @Html.ValidationMessageFor(model => model.Numberofguests, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Resevationtype, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <select class="form-control" required name="Resevationtype">
+                    <option>GENERAL</option>
+                    <option>VIP</option>
+                    <option>VVIP</option>
+                </select>
+                @Html.ValidationMessageFor(model => model.Resevationtype, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+      
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="NEXT" class="btn btn-danger" />
+            </div>
+        </div>
+    </div>
+}
+
+

@@ -1,0 +1,106 @@
+﻿<div id="content" class="site-content">
+    <!-- Breadcrumb -->
+    <div id="breadcrumb">
+        <div class="container">
+            <h2 class="title">My profile</h2>
+
+            <ul class="breadcrumb">
+                <li><a href="/" title="Home">Account</a></li>
+                <li><a href="#" title="Fruit">My profile</a></li>
+            </ul>
+        </div>
+    </div>
+    <!-- BEGIN Main Container col2-right -->
+    <section class="main-container col2-right-layout">
+        <div class="main container">
+            <div class="row">
+                <section class="col-main col-sm-9 col-xs-12 wow bounceInUp animated animated" style="visibility: visible;">
+                    <div class="my-account">
+                        @if (TempData["Error"] != null)
+                        {
+                            <div align="center" class="alert-danger">
+                                <h5>@TempData["Error"]</h5>
+                            </div>
+                        }
+
+                        @if (TempData["Sucess"] != null)
+                        {
+                            <div align="center" class="alert-success">
+                                <h5>@TempData["Error"]</h5>
+                            </div>
+                        }
+                        <!--page-title-->
+                        <!-- BEGIN DASHBOARD-->
+                        <div class="dashboard">
+                            <div class="welcome-msg">
+                                <p class="hello"><strong>Hello, @User.Identity.Name</strong></p>
+
+                                <br />
+                                <br />
+                            </div>
+                            <div class="recent-orders">
+                                <div class="title-buttons"> <strong>Recent Orders</strong>  </div>
+                                <div class="table-responsive">
+                                    @Html.Action("Orders", "Account")
+                                </div>
+                                <!--table-responsive-->
+                            </div>
+                            <!--recent-orders-->
+
+                        </div>
+                    </div>
+                </section>
+                <!--col-main col-sm-9 wow bounceInUp animated-->
+                <aside class="col-right sidebar col-sm-3 col-xs-12 wow bounceInUp animated animated" style="visibility: visible;">
+                    <div class="block block-account">
+                        <div class="block-title"> My Account </div>
+                        <div class="block-content">
+                            <ul>
+                                <li class="current"><a>Account Dashboard</a></li>
+                                <li><a href="/account/GetOrderAddress" class="btn btn-danger"><span> Address Book</span></a></li>
+                                <li><a href="/home/myresevations" class="btn btn-danger"><span> My Resevations</span></a></li>
+                                <li><a href="#"><span> My Orders</span></a></li>
+                                <li><a href="#"><span> My Product Reviews</span></a></li>
+                            </ul>
+                        </div>
+                        <!--block-content-->
+                    </div>
+                    <div class="block block-account">
+                        <div class="block-title"> My Address </div>
+                        <div class="block-content">
+                            <div class="col2-set">
+                                <div class="box">
+
+                                    <!--box-title-->
+                                    <div class="box-content">
+                                        <div class="col-1">
+
+                                            <address>
+                                                
+                                            </address>
+                                        </div>
+                                    </div>
+                                    <!--box-content-->
+                                </div>
+                                <!--box-->
+                            </div>
+
+                        </div>
+                        <!--block-content-->
+                    </div>
+                    <!--block block-account-->
+
+
+
+                </aside>
+                <!--col-right sidebar col-sm-3 wow bounceInUp animated-->
+            </div>
+            <!--row-->
+        </div>
+        <!--main container-->
+    </section>
+    <!--main-container col2-left-layout-->
+    <!-- BEGIN Main Container col2-right -->
+    <!--main-container col2-left-layout-->
+
+</div>

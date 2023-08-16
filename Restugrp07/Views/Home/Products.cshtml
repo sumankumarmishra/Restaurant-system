@@ -1,0 +1,50 @@
+﻿@model IEnumerable<Restugrp07.Models.Product>
+
+@{
+    ViewBag.Title = "Products";
+}
+
+<h2>Menu</h2>
+
+
+
+
+
+
+<div style="display:inline-block;display:inline">
+
+    <div class="col-lg-12 pd2">
+
+        <div class="clearfix"></div>
+        <div class="slider-flr" id="filter_itm1">
+
+            @foreach (var item in Model)
+            {
+                <div class="js-filter-chicken" style="padding:5px">
+                    <div class="block-stl2">
+                        <div class="img-holder">
+                            <img src="~/images/uploads/products/@item.Id/@item.ImageName" style="height:250px;width:100%" alt="" class="img-rounded">
+
+                        </div>
+                        <div class="text-block">
+                            <h3>@item.Name</h3>
+                            <p class="sz">@item.Category.Name</p>
+                            <p class="price"><span>R @item.Price</span> </p>
+                        </div>
+                        <div class="btn-sec">
+                            <a href="#" class="btn4">About More</a>
+                            <a href="/home/addtocart?productId=@item.Id" class="btn1 stl2">Add to Cart</a>
+                        </div>
+                    </div>
+                </div>
+
+
+            }
+        </div>
+        <div class="clearfix"></div>
+
+    </div>
+</div>
+
+
+

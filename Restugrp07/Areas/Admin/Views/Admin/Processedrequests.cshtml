@@ -1,0 +1,62 @@
+﻿@model IEnumerable<Restugrp07.Models.Partrequest>
+
+@{
+    ViewBag.Title = "Processedrequests";
+}
+
+<h2>Processed requests</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Useremail)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Partnumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Partimage)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Partcarmodel)
+        </th>
+      
+        <th>
+            @Html.DisplayNameFor(model => model.Date)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Price)
+        </th>
+       
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Useremail)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Partnumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Partimage)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Partcarmodel)
+        </td>
+       
+        <td>
+            @Html.DisplayFor(modelItem => item.Date)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Price)
+        </td>
+       
+        <td>
+                <a href="/admin/admin/Processedpartdetails?id=@item.Id" class="btn btn-info">Request Details</a>
+        </td>
+    </tr>
+}
+
+</table>

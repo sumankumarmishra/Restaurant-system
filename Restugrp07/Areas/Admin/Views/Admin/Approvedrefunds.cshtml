@@ -1,0 +1,61 @@
+﻿@model IEnumerable<Restugrp07.Models.Refund>
+
+@{
+                /**/
+
+                ViewBag.Title = "Refunds";
+}
+
+<h2>Refunds</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Reason)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Destination)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.OrderNum)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CustomerEmail)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Status)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Date)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.Reason)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Destination)
+    </td>
+
+    <td>
+        @Html.DisplayFor(modelItem => item.OrderNum)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.CustomerEmail)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Status)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Date)
+    </td>
+
+</tr>
+}
+
+</table>

@@ -1,0 +1,86 @@
+﻿@model IEnumerable<Restugrp07.Models.Resevation>
+
+@{
+    ViewBag.Title = "Resevations";
+}
+
+<h2>Resevations</h2>
+
+<p>
+</p>
+<table class="table">
+    <tr>
+       
+        <th>
+            @Html.DisplayNameFor(model => model.Occationdate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Numberofguests)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Resevationtype)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Status)
+        </th>
+      
+        <th>
+            @Html.DisplayNameFor(model => model.Tablelayout)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Themecolor)
+        </th>
+       
+        <th>
+            @Html.DisplayNameFor(model => model.Resavationslip)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Total)
+        </th>
+       
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+       
+        <td>
+            @Html.DisplayFor(modelItem => item.Occationdate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Numberofguests)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Resevationtype)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Status)
+        </td>
+       
+        <td>
+            @Html.DisplayFor(modelItem => item.Tablelayout)
+        </td>
+        <td>
+            <div style="padding:0.8px;background-color:red;border-radius:2px;width:102px" align="center">
+                <div style="height:30px;width:100px;background-color:@item.Themecolor;border-radius:5px;">
+
+                </div>
+            </div>
+           
+        </td>
+       
+        
+        <td>
+            @Html.DisplayFor(modelItem => item.Resavationslip)
+        </td>
+        <td>
+           R @Html.DisplayFor(modelItem => item.Total)
+        </td>
+       
+        <td>
+           <a href="/admin/admin/Confirmitemsavailability?resId=@item.Id" class="btn btn-danger">Details/Process</a>
+        </td>
+    </tr>
+}
+
+</table>

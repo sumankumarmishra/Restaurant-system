@@ -1,0 +1,104 @@
+﻿@model Restugrp07.Models.Resevation
+
+@{
+    ViewBag.Title = "Orderdetailsandpayment";
+}
+
+<h2>Order details and payment</h2>
+
+<br />
+
+
+<div class="row">
+
+    <div class="col-sm-5">
+        @Html.Action("resvationdetails", "Admin")
+    </div>
+
+    <div class="col-sm-5">
+        <div>
+            <h4>Resevation</h4>
+            <hr />
+            <dl class="dl-horizontal">
+
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Occationdate)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Occationdate)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Numberofguests)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Numberofguests)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Resevationtype)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Resevationtype)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Status)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Status)
+                </dd>
+
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Tablelayout)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Tablelayout)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Themecolor)
+                </dt>
+
+                <dd>
+                    <div style="padding:0.8px;background-color:red;border-radius:2px;width:102px" align="center">
+                        <div style="height:30px;width:100px;background-color:@Model.Themecolor;border-radius:5px;">
+
+                        </div>
+                    </div>
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Servicefee)
+                </dt>
+
+                <dd>
+                    R @Html.DisplayFor(model => model.Servicefee)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Total)
+                </dt>
+
+                <dd>
+                    R @Html.DisplayFor(model => model.Total)
+                </dd>
+
+
+            </dl>
+        </div>
+
+
+    </div>
+
+</div>
+
+
+
+
