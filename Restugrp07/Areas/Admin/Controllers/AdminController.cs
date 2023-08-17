@@ -2084,7 +2084,7 @@ namespace Restugrp07.Areas.Admin.Controllers
             return Redirect("/admin/admin/Confirmitemsavailability?resId="+resm.ResevationId);
         }
 
-
+        [HttpGet]
         public ActionResult Approveresevation(int resId)
         {
             Resevation res = db.Resevations.Find(resId);
@@ -2094,9 +2094,27 @@ namespace Restugrp07.Areas.Admin.Controllers
 
 
 
-        public ActionResult Assignwaiter(int resId)
+        [HttpPost]
+        public ActionResult Approveresevation(Resevation model)
         {
+            Resevation res = db.Resevations.Find(model.Id);
 
+            res.Adminsignature = model.Adminsignature;
+            res.isResevationApproved = true;
+            res.Statusnum = 4;
+            res.isProcessed = true;
+            res.Status = "Resevation approved";
+            db.SaveChanges();
+
+            return Redirect("/admin/admin/Assignwaiter?resId=" + res.Id);
+        }
+
+
+        [HttpGet]
+        public ActionResult Assignwaiter(int resId, Resevation model)
+        {
+            model.Waiters = new SelectList(db.Users.ToList(), "EmailAddress", "EmailAddress");
+            model.Id = resId;
             List<User> u = new List<User>();
 
             var usr = db.UserRoles.Where(x => x.Role.Name == "Waiter").ToList();
@@ -2108,8 +2126,24 @@ namespace Restugrp07.Areas.Admin.Controllers
                 u.Add(us);
             }
 
-            return View(u);
+            return View(model);
         }
+
+
+
+        [HttpPost]
+        public ActionResult Assignwaiter(Resevation model)
+        {
+            Resevation res = db.Resevations.Find(model.Id);
+            res.Waiteremail = model.Waiteremail;
+            db.SaveChanges();
+
+            return RedirectToAction("Resevations");
+        }
+
+
+
+
 
     }
 }

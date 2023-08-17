@@ -42,13 +42,13 @@ namespace Restugrp07.Models
         [Display(Name = "Last Name")]
 
         public string LastName { get; set; }
-
+        [Display(Name ="Email")]
         [DataType(DataType.EmailAddress)]
         public string EmailAddress { get; set; }
 
         [DataType(DataType.Password)]
         public string Password { get; set; }
-
+        [Display(Name ="Phone")]
         public string PhoneNumber { get; set; }
 
         public int Credit { get; set; }
@@ -406,12 +406,25 @@ namespace Restugrp07.Models
         [Display(Name = "Service fee")]
 
         public int Servicefee { get; set; }
+        [Display(Name = "Is resevation approved")]
 
         public bool isResevationApproved { get; set; }
+        [Display(Name = "Is Processd?")]
 
         public bool isProcessed { get; set; }
+        [Display(Name = "Admins signature")]
 
         public string Adminsignature { get; set; }
+        [Display(Name ="Waiter email")]
+        public string Waiteremail { get; set; }
+        [Display(Name ="is User checkedin?")]
+        public bool isCheckedin { get; set; }
+        [Display(Name ="Checkin date")]
+        public Nullable<DateTime> Checkindate { get; set; }
+        [Display(Name = "is Resevation cancelled")]
+        public bool isCancelled { get; set; }
+
+        public IEnumerable<SelectListItem> Waiters { get; set; }
     }
 
 
@@ -440,6 +453,153 @@ namespace Restugrp07.Models
         [ForeignKey("MealId")]
         public virtual Product Product { get; set; }
     }
+
+
+    public class Cancelation
+    {
+        [Key]
+        public int Id { get; set; }
+
+        public DateTime Date { get; set; }
+        [Display(Name ="Cancelation reason")]
+        public string Cancelationreason { get; set; }
+        [Display(Name = "Resevation number ")]
+
+        public Nullable<int> ResevationId { get; set; }
+        [Display(Name = "Booking number")]
+
+        public Nullable<int> RestubookingId { get; set; }
+
+        public string Status { get; set; }
+
+        public int Statusnum { get; set; }
+        [Display(Name = "Refunded amount")]
+
+        public double Refundedamount { get; set; }
+        [Display(Name = "is Eligible for refund")]
+
+        public bool isEligibleforrefund { get; set; }
+        [Display(Name = "Proff of bank account")]
+
+        public string Proofofaccount { get; set; }
+
+        [ForeignKey("ResevationId")]
+        public virtual Resevation Resevation { get; set; }
+
+        [ForeignKey("RestubookingId")]
+        public virtual Resturantbooking Resturantbooking { get; set; }
+    }
+
+
+    public class Resturantbooking
+    {
+        [Key]
+        public int Id { get; set; }
+
+        public string Status { get; set; }
+
+        public int Statusnum { get; set; }
+
+        public DateTime Date { get; set; }
+        [Display(Name = "Is cancelled?")]
+
+        public bool isCancelled { get; set; }
+        [Display(Name = "Occasion date")]
+
+        public DateTime Occasiondate { get; set; }
+
+        public int Total { get; set; }
+
+        [Display(Name = "Service fee")]
+
+        public int Servicefee { get; set; }
+
+        [Display(Name = "Theme color")]
+
+        public string Themecolor { get; set; }
+        [Display(Name = "User email")]
+
+        public string Useremail { get; set; }
+        [Display(Name = "Resevation code")]
+        public string Bookingcode { get; set; }
+        [Display(Name = "Resevation slip")]
+
+        public string Bookingslip { get; set; }
+        [Display(Name = "Number of guests")]
+
+        public int Numberofguests { get; set; }
+
+        public bool isBookingApproved { get; set; }
+        [Display(Name = "Is Processd?")]
+
+        public bool isProcessed { get; set; }
+        [Display(Name = "Admins signature")]
+
+        public string Adminsignature { get; set; }
+        [Display(Name = "Waiter email")]
+        public string Waiteremail { get; set; }
+        [Display(Name = "is User checkedin?")]
+        public bool isCheckedin { get; set; }
+        [Display(Name = "Checkin date")]
+        public Nullable<DateTime> Checkindate { get; set; }
+
+        public string Playlist { get; set; }
+
+
+    }
+
+
+
+
+
+    public class Bookingmeal
+    {
+        [Key]
+        public int Id { get; set; }
+        [Display(Name = "Meal / Item number")]
+
+        public int MealId { get; set; }
+        [Display(Name = "Quantity ordered")]
+
+        public int Quantityordered { get; set; }
+        [Display(Name = "Booking number")]
+
+        public int BookingId { get; set; }
+
+        public bool isAvailable { get; set; }
+
+        public bool isChecked { get; set; }
+
+        [ForeignKey("BookingId")]
+        public virtual Resturantbooking Resturantbooking { get; set; }
+
+        [ForeignKey("MealId")]
+        public virtual Product Product { get; set; }
+    }
+
+
+
+
+
+
+
+    public class Resturantcalender
+    {
+        [Key]
+        public int Id { get; set; }
+
+        public DateTime Date { get; set; }
+
+        public DateTime Occasiondate { get; set; }
+
+        public int Bookingid { get; set; }
+
+        [ForeignKey("Bookingid")]
+
+        public virtual Booking Booking { get; set; }
+
+    }
+
 
 
 }

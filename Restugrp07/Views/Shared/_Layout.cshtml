@@ -45,26 +45,30 @@
                             <a href="#" class="nav-opener"><i class="fa fa-bars"></i></a>
                             <nav class="nav">
                                 <ul class="list-unstyled">
-                                    <li class="drop active">
-                                        <a href="/">Home</a>
-
-                                    </li>
+                                   
                                     <li class="drop">
                                         <a href="/home/products">Menu</a>
-
                                     </li>
                                     <li class="drop">
                                         <a href="/home/reserveatable">Reserve table(s)</a>
-
                                     </li>
+
                                     <li class="drop">
-                                        <a href="/account/myprofile">My orders</a>
-
+                                        <a href="/home/Bookresturant">Book Resturant</a>
                                     </li>
+
+                                    <li class="drop">
+                                        <a href="/account/myprofile">My profile</a>
+                                    </li>
+
 
                                     @if (User.IsInRole("Admin"))
                                     {
                                         <li><a href="/admin/admin/index">Admin space</a></li>
+                                    }
+                                    @if (User.IsInRole("Admin"))
+                                    {
+                                        <li><a href="/home/Startcheckin">Check in</a></li>
                                     }
 
                                     @if (User.IsInRole("Driver"))

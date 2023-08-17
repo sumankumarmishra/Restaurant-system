@@ -473,6 +473,14 @@
     <Content Include="Views\Home\Orderdetailsandpayment.cshtml" />
     <Content Include="Views\Home\paymentresevationmeals.cshtml" />
     <Content Include="Views\Home\Myresevations.cshtml" />
+    <Content Include="Views\Home\Startcheckin.cshtml" />
+    <Content Include="Views\Home\Invalidticket.cshtml" />
+    <Content Include="Views\Home\Checkedinsuccessfuly.cshtml" />
+    <Content Include="Views\Home\Cancel.cshtml" />
+    <Content Include="Views\Home\Uploadproofofaccount.cshtml" />
+    <Content Include="Views\Home\Cancelationreceived.cshtml" />
+    <Content Include="Views\Home\Bookresturant.cshtml" />
+    <Content Include="Views\Home\Addbookingmeals.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

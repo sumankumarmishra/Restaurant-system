@@ -30,6 +30,11 @@ namespace Restugrp07.Models
         public DbSet<Resevation> Resevations { get; set; }
 
         public DbSet<Resevationmeal> Resevationmeals { get; set; }
+        public DbSet<Resturantbooking> Resturantbookings { get; set; }
+        public DbSet<Bookingmeal> Bookingmeals { get; set; }
+
+        public DbSet<Cancelation> Cancelations { get; set; } 
+        public DbSet<Resturantcalender> Resturantcalenders { get; set; }
 
 
     }

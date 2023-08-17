@@ -3224,13 +3224,600 @@ namespace Restugrp07.Controllers
 
         public ActionResult Myresevations()
         {
-
             var res = db.Resevations.Where(x => x.Useremail == User.Identity.Name).ToList();
             return View(res);
         }
 
 
 
+        public ActionResult Startcheckin()
+        {
+            return View();
+        }
+
+        public ActionResult verifyticket(string qr)
+        {
+
+            Resevation r = db.Resevations.FirstOrDefault(x => x.Resevationcode == qr && x.isResevationApproved == true && x.isCheckedin == false);
+
+            if(r!= null)
+            {
+                r.isCheckedin = true;
+                r.Checkindate = DateTime.Now;
+                db.SaveChanges();
+
+                return Redirect("/home/Checkedinsuccessfuly?resId="+r.Id);
+            }
+            else
+            {
+                return RedirectToAction("Invalidticket");
+            }
+
+        }
+
+
+
+        public ActionResult Invalidticket()
+        {
+            return View();
+        }
+
+        public ActionResult Checkedinsuccessfuly(int?resId)
+        {
+            Resevation r = db.Resevations.Find(resId);
+
+            return View(r);
+        }
+
+        [HttpGet]
+        public ActionResult Cancel(Cancelation model, Nullable<int> bkid, Nullable<int> resid)
+        {
+
+            model.RestubookingId = bkid;
+            model.ResevationId = resid;
+
+            return View(model);
+        }
+
+
+        [HttpPost]
+        public ActionResult Cancel(Cancelation model)
+        {
+            Cancelation c = new Cancelation()
+            {
+                Date = DateTime.Now,
+                Cancelationreason = model.Cancelationreason,
+                ResevationId = model.ResevationId,
+                RestubookingId = model.RestubookingId,
+                Status = "",
+                Statusnum = 1,
+            };
+            db.Cancelations.Add(c);
+            db.SaveChanges();
+
+            if(model.ResevationId != null)
+            {
+                Resevation res = db.Resevations.Find(model.ResevationId);
+                res.Statusnum = 14;
+                res.Status = "Resevation cancelled";
+                res.isCancelled = true;
+                db.SaveChanges();
+
+                if(DateTime.Now <= res.Occationdate.AddDays(3))
+                {
+                    Cancelation cc = db.Cancelations.Find(c.Id);
+                    cc.isEligibleforrefund = true;
+                    cc.Refundedamount = res.Total - (res.Total * 0.01) + res.Servicefee;
+                    db.SaveChanges();
+                    return Redirect("/home/Uploadproofofaccount?cid="+ c.Id);
+                }
+
+            }
+
+            if(model.RestubookingId != null)
+            {
+                Resturantbooking resb = db.Resturantbookings.Find(model.RestubookingId);
+                resb.Statusnum = 14;
+                resb.Status = "Resevation cancelled";
+                resb.isCancelled = true;
+                db.SaveChanges();
+
+                if (DateTime.Now <= resb.Occasiondate.AddDays(3))
+                {
+                    Cancelation cc = db.Cancelations.Find(c.Id);
+                    cc.isEligibleforrefund = true;
+                    cc.Refundedamount = resb.Total - (resb.Total * 0.01)+resb.Servicefee;
+                    db.SaveChanges();
+                    return Redirect("/home/Uploadproofofaccount?cid=" + c.Id);
+                }
+
+            }
+
+            return Redirect("/home/Uploadproofofaccount?cid=" + c.Id);
+
+
+        }
+
+        [HttpGet]
+        public ActionResult Uploadproofofaccount(int?cid)
+        {
+            Cancelation c = db.Cancelations.Find(cid);
+
+            return View(c);
+        }
+
+        [HttpPost]
+        public ActionResult Uploadproofofaccount(Cancelation model,HttpPostedFileBase file)
+        {
+            Cancelation c = db.Cancelations.Find(model.Id);
+            c.Status = "Proof of account received";
+            c.Statusnum = 2;
+            c.Proofofaccount = file.FileName;
+            db.SaveChanges();
+
+            int id = model.Id;
+
+            var originalDirectory = new DirectoryInfo(string.Format("{0}Images\\Uploads", Server.MapPath(@"\")));
+            var pathString1 = Path.Combine(originalDirectory.ToString(), "Proofs");
+            var pathString2 = Path.Combine(originalDirectory.ToString(), "Proofs\\" + id.ToString());
+          
+            if (!Directory.Exists(pathString1))
+            {
+                Directory.CreateDirectory(pathString1);
+            }
+
+            if (!Directory.Exists(pathString2))
+            {
+                Directory.CreateDirectory(pathString2);
+            }
+           
+
+            //check if a file was  uploaded
+            if (file != null && file.ContentLength > 0)
+            {
+
+                string imageName = file.FileName;
+
+                var path = string.Format("{0}\\{1}", pathString2, imageName);
+
+                //save original image
+                file.SaveAs(path);
+               
+
+            }
+
+
+                return RedirectToAction("Cancelationreceived");
+        }
+
+
+        public ActionResult Cancelationreceived()
+        {
+            return View();
+        }
+
+
+
+
+        [Authorize,HttpGet]
+        public ActionResult Bookresturant()
+        {
+            return View();
+        }
+
+
+        [Authorize, HttpPost]
+        public ActionResult Bookresturant(Resturantbooking model)
+        {
+            Resturantbooking rb = new Resturantbooking()
+            {
+                Date = DateTime.Now,
+                isCancelled = false,
+                Occasiondate = model.Occasiondate,
+                Servicefee = 5000,
+                Status = model.Status,
+                Statusnum = 1,
+                Total = 0,
+                Playlist = model.Playlist
+
+            };
+            db.Resturantbookings.Add(rb);
+            db.SaveChanges();
+
+
+            return Redirect("/home/Addbookingmeals?bkid=" + rb.Id);
+        }
+
+
+
+
+        [HttpGet]
+        public ActionResult Addbookingmeals(int?bkid)
+        {
+            ViewBag.bkid = bkid;
+            var m = db.Products.ToList();
+            return View(m);
+        }
+
+
+
+
+
+
+
+
+
+        public ActionResult Addtobookingmeal(int mealId, int bkid)
+        {
+
+            Resturantbooking rb = db.Resturantbookings.Find(bkid);
+
+            var bkm = db.Bookingmeals.FirstOrDefault(x => x.BookingId == bkid && x.MealId == mealId);
+
+            if (bkm != null)
+            {
+                Bookingmeal remm = bkm;
+                remm.Quantityordered = remm.Quantityordered + 1;
+                db.SaveChanges();
+            }
+
+            else
+            {
+                Bookingmeal bokm = new Bookingmeal()
+                {
+                    BookingId = bkid,
+                    MealId = mealId,
+                    Quantityordered = rb.Numberofguests,
+                };
+
+                db.Bookingmeals.Add(bokm);
+                db.SaveChanges();
+            }
+
+            return Redirect("/home/bookingmeals?bkid=" + bkid);
+        }
+
+
+        public ActionResult Bookingmeals(int bkid)
+        {
+            ViewBag.bkid = bkid;
+
+            var bokm = db.Bookingmeals.Where(x => x.BookingId == bkid).ToList();
+
+            return View(bokm);
+        }
+
+        public ActionResult bkincre(int bokmealId)
+        {
+
+            Bookingmeal bokm = db.Bookingmeals.Find(bokmealId);
+            bokm.Quantityordered = bokm.Quantityordered + 1;
+            db.SaveChanges();
+
+            return Redirect("/home/bookingnmeals?bkid=" + bokm.BookingId);
+
+        }
+
+        public ActionResult bkrem(int bokmealId)
+        {
+
+            Bookingmeal resm = db.Bookingmeals.Find(bokmealId);
+            db.Bookingmeals.Remove(resm);
+            db.SaveChanges();
+
+            return Redirect("/home/bookingmeals?bkid=" + resm.BookingId);
+
+        }
+
+        public ActionResult bkdecre(int resmealId)
+        {
+
+            Bookingmeal resm = db.Bookingmeals.Find(resmealId);
+            if (resm.Quantityordered < 2)
+            {
+                db.Bookingmeals.Remove(resm);
+                db.SaveChanges();
+            }
+            else
+            {
+                resm.Quantityordered = resm.Quantityordered - 1;
+                db.SaveChanges();
+            }
+
+            return Redirect("/home/bookingmeals?bkid=" + resm.BookingId);
+        }
+
+
+        public ActionResult BookingOrderdetailsandpayment(int bkid)
+        {
+
+
+            var resm = db.Bookingmeals.Where(x => x.BookingId == bkid).ToList();
+
+            Resturantbooking res = db.Resturantbookings.Find(bkid);
+           
+
+
+            if (res.Statusnum == 1)
+            {
+                res.Total = resm.Sum(x => x.Product.Price * x.Quantityordered) + 5000;
+                res.Servicefee = 5000;
+                res.Statusnum = 2;
+                res.Status = "WAITING FOR PAYMENT";
+                db.SaveChanges();
+            }
+
+
+            return View(res);
+        }
+
+
+        public ActionResult paymentbookingmeals(int bkid)
+        {
+            var resm = db.Bookingmeals.Where(x => x.BookingId == bkid).ToList();
+
+            return View(resm);
+        }
+
+
+
+        public ActionResult Bookingpaid(int bkid)
+        {
+
+
+
+            using (Db db = new Db())
+            {
+
+
+                GetQuery code = new GetQuery();
+
+                string c = code.Main();
+
+                Resturantbooking res = db.Resturantbookings.Find(bkid);
+                res.Bookingcode = c;
+                res.Statusnum = 3;
+                res.Status = "PAIMENT RECEIVED";
+                res.Bookingslip = c + ".pdf";
+                db.SaveChanges();
+
+                var originalDirectory1 = new DirectoryInfo(string.Format("{0}Images\\Booking", Server.MapPath(@"\")));
+                var pathString11 = Path.Combine(originalDirectory1.ToString());
+
+                if (!Directory.Exists(pathString11))
+                {
+                    Directory.CreateDirectory(pathString11);
+                }
+
+                string Message = res.Bookingcode;
+
+
+                QRCodeGenerator ObjQr = new QRCodeGenerator();
+
+                QRCodeData qrCodeData = ObjQr.CreateQrCode(Message, QRCodeGenerator.ECCLevel.Q);
+
+                Bitmap bitMap = new QRCode(qrCodeData).GetGraphic(20);
+
+                using (MemoryStream ms = new MemoryStream())
+
+                {
+
+                    bitMap.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
+
+                    byte[] byteImage = ms.ToArray();
+
+                    var originalDirectory = new DirectoryInfo(string.Format("{0}Images\\Booking", Server.MapPath(@"\")));
+                    string pathString = Path.Combine(originalDirectory.ToString(), "\\");
+
+                    if (!Directory.Exists(pathString))
+                    {
+                        Directory.CreateDirectory(pathString);
+
+                    }
+
+                    bitMap.Save(Server.MapPath("~/images/Booking/" + User.Identity.Name + bkid + "qrcode.png"), System.Drawing.Imaging.ImageFormat.Png);
+                }
+
+
+
+                System.IO.FileStream fs = new FileStream(Server.MapPath("~/Images/Booking/") + res.Bookingcode + ".pdf", FileMode.Create);
+
+                Document pdfDoc = new Document(PageSize.A4, 25, 25, 25, 15);
+                PdfWriter pdfWriter = PdfWriter.GetInstance(pdfDoc, fs);
+
+                pdfDoc.Open();
+
+
+                try
+                {
+
+
+                    //Top Heading
+                    Chunk chunk = new Chunk(DateTime.UtcNow.AddHours(2).ToString(), FontFactory.GetFont("Arial", 5, iTextSharp.text.Font.BOLDITALIC, BaseColor.BLACK));
+                    pdfDoc.Add(chunk);
+
+                    //Horizontal Line
+                    Paragraph line = new Paragraph(new Chunk(new iTextSharp.text.pdf.draw.LineSeparator(0.0F, 100.0F, BaseColor.BLACK, Element.ALIGN_LEFT, 1)));
+                    pdfDoc.Add(line);
+
+
+                    //Table
+                    PdfPTable table = new PdfPTable(5);
+                    table.WidthPercentage = 100;
+                    //0=Left, 1=Centre, 2=Right
+                    table.HorizontalAlignment = 0;
+                    table.SpacingBefore = 20f;
+                    table.SpacingAfter = 30f;
+                    ////////
+                    ///
+
+
+
+
+
+
+                    //Cell no 1
+                    PdfPCell cell = new PdfPCell();
+                    cell.Border = 0;
+                    Image image = Image.GetInstance(Server.MapPath("~/images/Booking/" + User.Identity.Name + bkid + "qrcode.png"));
+                    image.ScaleAbsolute(100, 100);
+                    cell.AddElement(image);
+                    table.AddCell(cell);
+
+
+
+
+                    chunk = new Chunk("BOOKING NUMBER: " + bkid + "\nDATE: \n" + res.Date + "\nOCCASSION DATE: " + res.Occasiondate + "\nSERVICE FEE: R " + res.Servicefee + "\nBALANCE DUE :R 0\nTOTAL: R " + res.Total, FontFactory.GetFont("Daytona Condensed Light", 8, iTextSharp.text.Font.NORMAL, BaseColor.BLACK));
+                    cell = new PdfPCell();
+                    cell.Border = 0;
+                    var para3 = new Paragraph(chunk);
+                    para3.Alignment = Element.ALIGN_LEFT;
+                    para3.Alignment = -100;
+
+                    cell.AddElement(para3);
+                    table.AddCell(cell);
+
+
+
+
+                    chunk = new Chunk("", FontFactory.GetFont("Daytona Condensed Light", 8, iTextSharp.text.Font.NORMAL, BaseColor.BLACK));
+                    cell = new PdfPCell();
+                    cell.Border = 0;
+
+                    var para4 = new Paragraph(chunk);
+                    para4.Alignment = Element.ALIGN_LEFT;
+                    para4.Alignment = -100;
+
+                    cell.AddElement(para4);
+                    table.AddCell(cell);
+
+
+
+                    chunk = new Chunk("", FontFactory.GetFont("Daytona Condensed Light", 8, iTextSharp.text.Font.NORMAL, BaseColor.BLACK));
+                    cell = new PdfPCell();
+                    cell.Border = 0;
+
+                    var para5 = new Paragraph(chunk);
+                    para5.Alignment = Element.ALIGN_LEFT;
+                    para5.Alignment = -100;
+                    cell.AddElement(para5);
+                    table.AddCell(cell);
+
+
+                    chunk = new Chunk("FOOD LOVERS" + "\n" + "Restugrp07@gmail.com" + "\n" + "Durban North, South Africa" + "\n" + "durban" + "\n" + "Kwazulunatal" + "\n", FontFactory.GetFont("Daytona Condensed Light", 8, iTextSharp.text.Font.NORMAL, BaseColor.BLACK));
+
+                    //Cell no 2
+                    cell = new PdfPCell();
+                    cell.Border = 0;
+
+                    var para1 = new Paragraph(chunk);
+                    para1.Alignment = Element.ALIGN_RIGHT;
+
+
+                    cell.AddElement(para1);
+                    table.AddCell(cell);
+
+
+
+                    //Add table to document
+                    pdfDoc.Add(table);
+
+                    //Horizontal Line
+                    //line = new Paragraph(new Chunk(new iTextSharp.text.pdf.draw.LineSeparator(0.0F, 100.0F, BaseColor.BLACK, Element.ALIGN_LEFT, 1)));
+                    //pdfDoc.Add(line);
+
+                    //Table
+                    table = new PdfPTable(5);
+                    table.WidthPercentage = 100;
+                    table.HorizontalAlignment = 0;
+                    table.SpacingBefore = 20f;
+                    table.SpacingAfter = -0f;
+
+                    //Cell
+                    cell = new PdfPCell();
+                    chunk = new Chunk("RESEVATION ITEMS", FontFactory.GetFont("Daytona Condensed Light", 14, iTextSharp.text.Font.BOLD, BaseColor.BLACK));
+                    cell.Colspan = 5;
+                    var para13 = new Paragraph(chunk);
+                    para13.Alignment = Element.ALIGN_CENTER;
+
+
+                    cell.AddElement(para13);
+                    cell.BackgroundColor = BaseColor.WHITE;
+                    table.AddCell(cell);
+
+                    table.AddCell("PRODUCT NUMBER");
+                    table.AddCell("TITLE" + Environment.NewLine);
+                    table.AddCell("PRICE" + Environment.NewLine);
+                    table.AddCell("QUANTITY" + Environment.NewLine);
+                    table.AddCell("TOTAL" + Environment.NewLine);
+                    pdfDoc.Add(table);
+
+
+
+                    var cart = db.Bookingmeals.Where(x => x.BookingId == bkid);
+
+                    table = new PdfPTable(5);
+                    table.WidthPercentage = 100;
+                    table.HorizontalAlignment = 0;
+                    table.SpacingBefore = 0f;
+                    table.SpacingAfter = 30f;
+
+
+
+
+                    foreach (var item in cart)
+                    {
+                        line = new Paragraph(new Chunk(item.MealId.ToString(), FontFactory.GetFont("Arial", 8, iTextSharp.text.Font.NORMAL, BaseColor.BLACK)));
+                        table.AddCell(line);
+                        line = new Paragraph(new Chunk(item.Product.Name.ToString(), FontFactory.GetFont("Arial", 8, iTextSharp.text.Font.NORMAL, BaseColor.BLACK)));
+                        table.AddCell(line);
+
+                        line = new Paragraph(new Chunk("R:" + item.Product.Price.ToString(), FontFactory.GetFont("Arial", 8, iTextSharp.text.Font.NORMAL, BaseColor.BLACK)));
+                        table.AddCell(line);
+                        line = new Paragraph(new Chunk(item.Quantityordered.ToString(), FontFactory.GetFont("Arial", 8, iTextSharp.text.Font.NORMAL, BaseColor.BLACK)));
+                        table.AddCell(line);
+
+                        line = new Paragraph(new Chunk("R:" + (item.Quantityordered * item.Product.Price).ToString(), FontFactory.GetFont("Arial", 8, iTextSharp.text.Font.NORMAL, BaseColor.BLACK)));
+                        table.AddCell(line);
+
+
+                    }
+
+
+                    pdfDoc.Add(table);
+
+
+
+                    Paragraph para = new Paragraph();
+                    para.Add("THANK YOU");
+                    pdfDoc.Add(para);
+
+                    //Horizontal Line
+                    line = new Paragraph(new Chunk(new iTextSharp.text.pdf.draw.LineSeparator(0.0F, 100.0F, BaseColor.BLACK, Element.ALIGN_LEFT, 1)));
+                    pdfDoc.Add(line);
+
+                    pdfWriter.CloseStream = false;
+                    pdfDoc.Close();
+                    pdfDoc.CloseDocument();
+                    fs.Close();
+
+                    return Redirect("/Account/myprofile");
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+
+            }
+
+        }
+
+
+        public ActionResult Mybookings()
+        {
+            var res = db.Resevations.Where(x => x.Useremail == User.Identity.Name).ToList();
+            return View(res);
+        }
 
 
 

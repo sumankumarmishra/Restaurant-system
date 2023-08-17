@@ -1,0 +1,53 @@
+﻿@model Restugrp07.Models.Resturantbooking
+
+@{
+    ViewBag.Title = "Bookresturant";
+}
+
+<h2>Book resturant</h2>
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+       
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Occasiondate, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input type="datetime-local" name="Occasiondate" class="form-control" required />
+
+                @Html.ValidationMessageFor(model => model.Occasiondate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Themecolor, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input type="color" class="form-control" name="Themecolor" value="#ffffff" style="height:80px" required />
+
+                @Html.ValidationMessageFor(model => model.Themecolor, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Playlist, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <textarea name="Playlist" required class="form-control" style="height:250px">Please Provide your music playlist , or describe the type of music for the occasion</textarea>
+                @Html.ValidationMessageFor(model => model.Playlist, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="CONTINUE" class="btn btn-danger" />
+            </div>
+        </div>
+    </div>
+}
+
