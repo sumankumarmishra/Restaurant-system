@@ -2670,7 +2670,6 @@ namespace Restugrp07.Controllers
 
         public ActionResult laybuy(int orderid)
         {
-
             Order ord = db.Orders.Find(orderid);
             ord.Ordertype = "LAYBUY";
             ord.Ordertypenum = 2;
@@ -3272,10 +3271,8 @@ namespace Restugrp07.Controllers
         [HttpGet]
         public ActionResult Cancel(Cancelation model, Nullable<int> bkid, Nullable<int> resid)
         {
-
             model.RestubookingId = bkid;
             model.ResevationId = resid;
-
             return View(model);
         }
 
@@ -3397,8 +3394,6 @@ namespace Restugrp07.Controllers
         }
 
 
-
-
         [Authorize,HttpGet]
         public ActionResult Bookresturant()
         {
@@ -3417,13 +3412,15 @@ namespace Restugrp07.Controllers
                 Servicefee = 5000,
                 Status = model.Status,
                 Statusnum = 1,
+                Useremail = User.Identity.Name,
+                Themecolor = model.Themecolor,
                 Total = 0,
-                Playlist = model.Playlist
+                Playlist = model.Playlist,
+                Numberofguests = model.Numberofguests
 
             };
             db.Resturantbookings.Add(rb);
             db.SaveChanges();
-
 
             return Redirect("/home/Addbookingmeals?bkid=" + rb.Id);
         }
@@ -3478,6 +3475,7 @@ namespace Restugrp07.Controllers
         }
 
 
+
         public ActionResult Bookingmeals(int bkid)
         {
             ViewBag.bkid = bkid;
@@ -3486,6 +3484,8 @@ namespace Restugrp07.Controllers
 
             return View(bokm);
         }
+
+
 
         public ActionResult bkincre(int bokmealId)
         {
@@ -3525,18 +3525,16 @@ namespace Restugrp07.Controllers
             }
 
             return Redirect("/home/bookingmeals?bkid=" + resm.BookingId);
+
         }
 
 
         public ActionResult BookingOrderdetailsandpayment(int bkid)
         {
 
-
             var resm = db.Bookingmeals.Where(x => x.BookingId == bkid).ToList();
 
             Resturantbooking res = db.Resturantbookings.Find(bkid);
-           
-
 
             if (res.Statusnum == 1)
             {
@@ -3564,11 +3562,8 @@ namespace Restugrp07.Controllers
         public ActionResult Bookingpaid(int bkid)
         {
 
-
-
             using (Db db = new Db())
             {
-
 
                 GetQuery code = new GetQuery();
 
@@ -3735,7 +3730,7 @@ namespace Restugrp07.Controllers
 
                     //Cell
                     cell = new PdfPCell();
-                    chunk = new Chunk("RESEVATION ITEMS", FontFactory.GetFont("Daytona Condensed Light", 14, iTextSharp.text.Font.BOLD, BaseColor.BLACK));
+                    chunk = new Chunk("BOOKING ITEMS", FontFactory.GetFont("Daytona Condensed Light", 14, iTextSharp.text.Font.BOLD, BaseColor.BLACK));
                     cell.Colspan = 5;
                     var para13 = new Paragraph(chunk);
                     para13.Alignment = Element.ALIGN_CENTER;
@@ -3753,7 +3748,6 @@ namespace Restugrp07.Controllers
                     pdfDoc.Add(table);
 
 
-
                     var cart = db.Bookingmeals.Where(x => x.BookingId == bkid);
 
                     table = new PdfPTable(5);
@@ -3761,8 +3755,6 @@ namespace Restugrp07.Controllers
                     table.HorizontalAlignment = 0;
                     table.SpacingBefore = 0f;
                     table.SpacingAfter = 30f;
-
-
 
 
                     foreach (var item in cart)
@@ -3779,7 +3771,6 @@ namespace Restugrp07.Controllers
 
                         line = new Paragraph(new Chunk("R:" + (item.Quantityordered * item.Product.Price).ToString(), FontFactory.GetFont("Arial", 8, iTextSharp.text.Font.NORMAL, BaseColor.BLACK)));
                         table.AddCell(line);
-
 
                     }
 
@@ -3815,7 +3806,7 @@ namespace Restugrp07.Controllers
 
         public ActionResult Mybookings()
         {
-            var res = db.Resevations.Where(x => x.Useremail == User.Identity.Name).ToList();
+            var res = db.Resturantbookings.Where(x => x.Useremail == User.Identity.Name).ToList();
             return View(res);
         }
 

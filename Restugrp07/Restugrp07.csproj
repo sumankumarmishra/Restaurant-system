@@ -481,6 +481,10 @@
     <Content Include="Views\Home\Cancelationreceived.cshtml" />
     <Content Include="Views\Home\Bookresturant.cshtml" />
     <Content Include="Views\Home\Addbookingmeals.cshtml" />
+    <Content Include="Views\Home\Bookingmeals.cshtml" />
+    <Content Include="Views\Home\BookingOrderdetailsandpayment.cshtml" />
+    <Content Include="Views\Home\paymentbookingmeals.cshtml" />
+    <Content Include="Views\Home\Mybookings.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
